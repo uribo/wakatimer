@@ -4,6 +4,10 @@ wakatimer: UNOFFICIAL WakaTime Plugin for RStudio
 
 Currently, test cheking **Mac OS X only**. Please report other plaform result and [issues](https://github.com/uribo/wakatimer/issues/new).
 
+![進捗どうですか](https://github.com/uribo/wakatimer/raw/108c5fb6f2e894fbccf025fb42fb0dbdd8033ca5/inst/shigotohajime_man_good.png)
+
+(image by いらすとや <http://www.irasutoya.com>)
+
 💻 Requirement and Setup
 -----------------------
 
