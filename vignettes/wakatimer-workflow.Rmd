@@ -1,0 +1,100 @@
+---
+title: "How to Use WakaTimeR"
+author: "Shinya Uryu"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, eval = TRUE}
+library(wakatimer)
+```
+
+## Setup (recommend)
+
+```{r, eval = FALSE, echo = TRUE}
+# wakatime api key and app id set to R global environment 
+Sys.setenv("WAKATIME_KEY" = "<your api key>")
+Sys.setenv("WAKATIME_ID" = "<application id>")
+Sys.setenv("WAKATIME_SECRET" = "<application secret>")
+
+# also add to .RProfile
+```
+
+```{r, eval = TRUE, echo = FALSE}
+key = Sys.getenv("WAKATIME_KEY")
+app.id     = Sys.getenv("WAKATIME_ID")
+app.secret = Sys.getenv("WAKATIME_SECRET")
+```
+
+## API Request
+
+```{r, eval = TRUE}
+wakatimer:::wt_api(resource = "heartbeats", 
+                   key = Sys.getenv("WAKATIME_KEY"), 
+                   param = list(date = format(Sys.Date(), "%m/%d/%Y"), time = "time", "entity"))
+```
+
+### Send Heartbeat
+
+**`{wakatimer}`** is automatically log and post information that files in project directory when internet connection. Here, I indicate that to sent indivual heartbeat method.
+
+```{r}
+# Check recent open files
+recent_files()
+```
+
+
+```{r, eval=FALSE}
+wakatimer:::check_file_active()
+```
+
+[1] "~/git/r_pkg/wakatimer/vignettes/wakatimer-workflow.Rmd"
+
+```{r, eval=FALSE}
+# Check condition
+file_info()
+
+# $entity
+# [1] "~/git/r_pkg/wakatimer/vignettes/wakatimer-workflow.Rmd"
+# 
+# $type
+# [1] "file"
+# 
+# $time
+# [1] 1453720956
+# 
+# $lines
+# [1] 61
+# 
+# $lineno
+# [1] 51
+# 
+# $cursorpos
+# [1] 1
+# 
+# $project
+# [1] "wakatimer"
+# 
+# $branch
+# [1] "master"
+# 
+# $language
+# [1] "Rmd"
+# 
+# $is_debugging
+# [1] FALSE
+# 
+# $is_write
+# [1] FALSE
+```
+
+
+
+```{r, eval=FALSE}
+# Sync individual current active file information to wakatime
+wt_sync()
+```

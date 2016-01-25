@@ -1,0 +1,133 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+wakatimer: UNOFFICIAL WakaTime Plugin for RStudio
+------
+
+```{r, eval = TRUE, echo = FALSE}
+library(remoji)
+```
+
+Currently, test cheking **Mac OS X only**. Please report other plaform result and [issues](https://github.com/uribo/wakatimer/issues/new).
+
+## `r emoji("computer")` Requirement and Setup
+
+1. [Create WakaTime accont](https://wakatime.com/signup).
+2. Configure your own [API key](https://wakatime.com/settings).
+3. [Registry application](https://wakatime.com/apps) and to get an OAuth 2.0 client token to use wakatimer.
+
+Then, Install package from GitHub repository.
+
+```{r, eval = FALSE}
+devtools::install_github("uribo/wakatimer")
+```
+
+## `r emoji("beginner")` How to Use
+
+Loading package and run `write_scole()` function to authorize.
+
+```{r, eval = FALSE}
+library(wakatimer)
+write_scole()
+# Waiting for authentication in browser...
+# Press Esc/Ctrl + C to abort
+# Authentication complete.
+```
+
+Next, wakatime api key and app id set to R global environment.
+
+```{r, eval = FALSE}
+Sys.setenv("WAKATIME_KEY" = "<your api key>")
+Sys.setenv("WAKATIME_ID" = "<application id>")
+Sys.setenv("WAKATIME_SECRET" = "<application secret>")
+```
+
+I recommend these variables are add to .Rprofile such as below.
+
+```{r, eval = FALSE}
+# .Rprofile
+Sys.setenv(
+  WAKATIME_KEY     = "<your api key>",
+  WAKATIME_ID      = "<application id>",
+  WAKATIME_SECRET  = "<application secret>"
+)
+```
+
+
+**Use like you normally do and your time will record by log.**
+
+```{r, eval = FALSE}
+q()
+```
+
+Current sessions modificate file information will sent to WakaTime!! Visit https://wakatime.com to see your logged time. Also, you can confirm in RStudio :)
+
+```{r, eval = FALSE}
+# project,language,branch,is_write,is_debugging,lines
+req <- wakatimer:::wt_api(resource = "heartbeats", 
+                   key = Sys.getenv("WAKATIME_KEY"), 
+                   param = list(date = format(Sys.Date(), "%m/%d/%Y"), time = "time", "entity"))
+req$data %>% head() %>% knitr::kable(format = "markdown")
+```
+
+|entity                                                 |id                                   |       time|type |
+|:------------------------------------------------------|:------------------------------------|----------:|:----|
+|~/git/r_pkg/wakatimer/vignettes/wakatimer-workflow.Rmd |02d27d37-d228-49f4-9067-2ee7260fc14d | 1453734664|file |
+|~/git/r_pkg/wakatimer/R/zzz.R                          |207cd092-251b-40d4-b1c4-f26a296f298e | 1453742043|file |
+|~/git/r_pkg/wakatimer/R/zzz.R                          |94d89fae-3407-4ee0-a920-8cce3f375038 | 1453742827|file |
+|~/git/r_pkg/wakatimer/.Rprofile                        |61bc6270-3b9b-4f9e-8241-9a1a8b2b5f08 | 1453745367|file |
+|~/git/r_pkg/wakatimer/R/wt_sync.R                      |53b85419-fc44-4fc8-beef-f7d6f94aaa17 | 1453746391|file |
+|~/git/r_pkg/wakatimer/README.Rmd                       |71a5c819-6299-4287-b3cd-55f79d872ab7 | 1453747159|file |
+
+### Recommend
+
+Do not forget loading package.
+
+```{r, eval = FALSE}
+# .Rprofile
+.First <- function() {
+  # invalid when rmarkdown render
+  if(interactive()) {
+    suppressMessages(library(wakatimer))
+    wakatimer::write_scope()
+  }
+}
+```
+
+
+## `r emoji("moyai")` Milestone
+
+0.1.0
+
+- [x] セッション中のファイル変更を自動的に記録、POSTするまで
+- [x] lineno, cursorpos パラメータの追加
+
+0.2.0
+
+- [] テストファイルの整備
+- [] 継続的インテグレーションが実行できるようにする
+- [] **`{rstudioaddin}`**との連携
+- [] .wakatime.cfg に管理対象外のファイルを追加する関数
+- [] 管理対象のファイルはエラー扱いにする
+- [] APIを使った可視化
+- [] 全APIへの対応
+- [] Shiny Widget への対応
+- [] vignettes, documentの充実
+- [] オフラインでの記録と再接続時の投稿（instフォルダ内へのファイル、データベース保存？）
+- [] Mac以外のOSへの対応
+
+## `r emoji("rotating_light")` Current Issues
+
+多分、正常に動作ているだろうという不安さ。
