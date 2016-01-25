@@ -6,8 +6,8 @@ Date: 2016-01-23
 Authors@R: c(person(given = "Shinya", family = "Uryu",
                                             email = "suika1127@gmail.com",
                                             role  = c("aut", "cre")))
-Description: Unofficial RStudio (IDE for R) WakaTime (https://wakatime.com) plugin package.
-    with time tracking and metrics about your programming.
+Description: Unofficial RStudio (IDE for R) WakaTime (https://wakatime.com) plugin package to
+ quantify your coding with time tracking and metrics about your programming.
 License: MIT + file LICENSE
 LazyData: TRUE
 Depends:
@@ -15,11 +15,14 @@ Depends:
 URL: https://github.com/uribo/wakatimer
 BugReports: https://github.com/uribo/wakatimer/issues
 Imports:
+  devtools,
   dplyr,
   git2r,
   httr,
   jsonlite,
   purrr,
+  remoji,
+  rlist,
   rstudioapi
 Encoding: UTF-8
 Suggests:
@@ -27,6 +30,7 @@ Suggests:
     knitr,
     rmarkdown
 Remotes:
+  richfitz/remoji,
   rstudio/rstudioapi
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr
