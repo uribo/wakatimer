@@ -24,11 +24,11 @@ devtools::install_github("uribo/wakatimer")
 🔰 How to Use
 ------------
 
-Loading package and run `write_scole()` function to authorize.
+Loading package and run `write_scope()` function to authorize.
 
 ``` r
 library(wakatimer)
-write_scole()
+write_scope()
 # Waiting for authentication in browser...
 # Press Esc/Ctrl + C to abort
 # Authentication complete.
