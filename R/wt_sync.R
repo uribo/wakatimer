@@ -45,11 +45,11 @@ wt_sync_session <- function() {
 
   # .wakatimerEnv$df.files <- recent_files()
   .wakatimerEnv$df.files.load <-
-    wakatimer:::record_files(df = .wakatimerEnv$df.files) %>%
+    record_files(df = .wakatimerEnv$df.files) %>%
     dplyr::mutate(is_write = FALSE)
 
   .wakatimerEnv$df.files.quit <-
-    recent_files() %>% wakatimer:::record_files() %>%
+    recent_files() %>% record_files() %>%
     dplyr::bind_rows(.wakatimerEnv$df.files.load) %>%
     dplyr::distinct(time)
 
@@ -71,8 +71,8 @@ wt_sync_session <- function() {
       type = "file",
       lineno = NULL,
       cursorpos = NULL,
-      project = wakatimer:::get_rproj_name(),
-      branch = wakatimer:::get_hbranch_name(),
+      project = get_rproj_name(),
+      branch = get_hbranch_name(),
       language = gsub(".+\\.", "", entity),
       is_debugging = FALSE,
       is_write = ifelse(is.na(is_write), TRUE, FALSE)

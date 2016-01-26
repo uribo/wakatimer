@@ -1,5 +1,10 @@
 # UTILITIES
+# - recent_files()
+# - check_file_active()
+# - get_rproj_name()
+# - get_hbranch_name()
 # - file_info()
+# - record_files()
 
 #' Get recently opened file name
 #' @param n integer. retern file numbers. default is 15 .(max)
@@ -58,21 +63,6 @@ get_rproj_name <- function() {
   }
   # alternative
 
-}
-
-.get_rproj_name <- function() {
-
-
-
-    dplyr::mutate(rproj = ifelse(identical(character(0), grep("^.*\\.Rproj$", file %>% dirname() %>% list.files(), value = TRUE)),
-                                 grep("^.*\\.Rproj$", file %>% dirname() %>% list.files(), value = TRUE),
-                                 NA)) %>%
-    dplyr::ungroup()
-  if (identical(character(0), grep("^.*\\.Rproj$", list.files(dirname(.wakatimerEnv$df.files$file[1])), value = TRUE)) == TRUE) {
-    NULL
-  } else {
-
-  }
 }
 
 #' Get git head branch name
