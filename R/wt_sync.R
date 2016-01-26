@@ -80,7 +80,7 @@ wt_sync_session <- function() {
     jsonlite::toJSON(pretty = FALSE) %>%
     rlist::list.load()
 
-  if (is.list(json.sync))
+  if (is.list(json.sync) & length(json.sync) >= 1)
     for (i in 1:length(json.sync)) {
       httr::POST(
         "https://api.wakatime.com/",
