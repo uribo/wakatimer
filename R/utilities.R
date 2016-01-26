@@ -152,7 +152,7 @@ file_info <- function() {
 #' @name record_files
 record_files <- function(df = NULL) {
   if (is.null(.wakatimerEnv$df.files))
-    recent_files()
+    wakatimerEnv$df.files <- recent_files()
   df %>%
     dplyr::rename(entity = file) %>%
     dplyr::filter(grepl(
