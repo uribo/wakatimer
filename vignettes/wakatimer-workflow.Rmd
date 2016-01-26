@@ -1,5 +1,5 @@
 ---
-title: "How to Use WakaTimeR"
+title: "How to Use wakatimer"
 author: "Shinya Uryu"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -9,11 +9,15 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, eval = TRUE}
+```{r, eval = TRUE, message = FALSE}
 library(wakatimer)
 ```
 
 ## Setup (recommend)
+
+1. [Create WakaTime accont](https://wakatime.com/signup).
+2. Configure your own [API key](https://wakatime.com/settings).
+3. [Registry application](https://wakatime.com/apps) and to get an OAuth 2.0 client token to use wakatimer.
 
 ```{r, eval = FALSE, echo = TRUE}
 # wakatime api key and app id set to R global environment 
@@ -29,6 +33,20 @@ key = Sys.getenv("WAKATIME_KEY")
 app.id     = Sys.getenv("WAKATIME_ID")
 app.secret = Sys.getenv("WAKATIME_SECRET")
 ```
+
+```{r, eval = FALSE}
+# Continue to authorize
+write_scope()
+```
+
+That's all! **Use like you normally do and your time will record by log.**
+
+```{r, eval = FALSE}
+# Normally terminate r session 
+q()
+```
+
+The **`{wakatimer}`** provide current sessions modificate file information will sent to WakaTime!! Visit https://wakatime.com to see your logged time. However, when in such situation out of scope for post to wakatime API 1) Force Quit RStudio 2) Restart R.
 
 ## API Request
 

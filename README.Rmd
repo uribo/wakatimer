@@ -76,7 +76,9 @@ Sys.setenv(
 q()
 ```
 
-Current sessions modificate file information will sent to WakaTime!! Visit https://wakatime.com to see your logged time. Also, you can confirm in RStudio :)
+The **`{wakatimer}`** provide current sessions modificate file information will sent to WakaTime!! Visit https://wakatime.com to see your logged time. However, when in such situation out of scope for post to wakatime API 1) Force Quit RStudio 2) Restart R.
+
+Also, you can confirm in RStudio :)
 
 ```{r, eval = FALSE}
 # project,language,branch,is_write,is_debugging,lines
