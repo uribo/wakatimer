@@ -6,10 +6,10 @@
 .wakatimerEnv$exist.files <- NULL
 
 .onAttach <- function(libname, pkgname) {
+  packageStartupMessage("Next, to run `write_scope()` and authentication for file status record :)")
+
   if (!rstudioapi::isAvailable())
     packageStartupMessage("RStudio not running.\n")
-
-  packageStartupMessage("Next, to run `write_scope()` and authentication for file status record :)")
 }
 
 .onLoad <- function(libname, pkgname) {
