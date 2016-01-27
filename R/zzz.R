@@ -6,46 +6,10 @@
 .wakatimerEnv$exist.files <- NULL
 
 .onAttach <- function(libname, pkgname) {
-  if (rstudioapi::isAvailable()) {
-    packageStartupMessage(
-      paste(
-        if (.Platform$OS.type == "unix") {
-          paste0(
-            remoji::emoji("computer"),
-            utils::sessionInfo()$R.version$language,
-            " (",
-            utils::sessionInfo()$R.version$major,
-            ".",
-            utils::sessionInfo()$R.version$minor,
-            ")",
-            remoji::emoji("large_blue_circle"),
-            devtools::session_info()$platform$ui,
-            remoji::emoji("package"),
-            "wakatimer (",
-            utils::packageVersion("wakatimer"),
-            ")"
-          )
-        } else {
-          paste0(
-            utils::sessionInfo()$R.version$language,
-            " (",
-            utils::sessionInfo()$R.version$major,
-            ".",
-            utils::sessionInfo()$R.version$minor,
-            ") ",
-            devtools::session_info()$platform$ui,
-            " wakatimer (",
-            utils::packageVersion("wakatimer"),
-            ")"
-          )
-        },
-        "Next, to run `write_scope()` and authentication for file status record :)",
-        sep = "\n"
-      )
-    )
-      } else if (!rstudioapi::isAvailable()) {
-        packageStartupMessage("RStudio not running. This package only use RStudio.", call. = FALSE)
-  }
+  if (!rstudioapi::isAvailable())
+    packageStartupMessage("RStudio not running.\n")
+
+  packageStartupMessage("Next, to run `write_scope()` and authentication for file status record :)")
 }
 
 .onLoad <- function(libname, pkgname) {
@@ -79,6 +43,43 @@ write_scope <-
         ),
         scope = "write_logged_time"
       )
+
+    message(
+      paste0("The wakatimer begin to record your code as heartbeats!\n ",
+        if (.Platform$OS.type == "unix") {
+          paste0(
+            remoji::emoji("computer"),
+            utils::sessionInfo()$R.version$language,
+            " (",
+            utils::sessionInfo()$R.version$major,
+            ".",
+            utils::sessionInfo()$R.version$minor,
+            ") ",
+            remoji::emoji("large_blue_circle"),
+            devtools::session_info()$platform$ui,
+            " ",
+            remoji::emoji("package"),
+            "wakatimer (",
+            utils::packageVersion("wakatimer"),
+            ")"
+          )
+        } else {
+          paste0(
+            utils::sessionInfo()$R.version$language,
+            " (",
+            utils::sessionInfo()$R.version$major,
+            ".",
+            utils::sessionInfo()$R.version$minor,
+            ") ",
+            devtools::session_info()$platform$ui,
+            "wakatimer (",
+            utils::packageVersion("wakatimer"),
+            ")"
+          )
+        }
+      )
+    )
+
     .Last <<- function() {
       if (is.null(.wakatimerEnv$post.token))
         .wakatimerEnv$post.token <- write_scope()
