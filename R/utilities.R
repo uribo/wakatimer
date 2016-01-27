@@ -19,10 +19,18 @@ recent_files <- function(n = 15) {
     warning("over request. display only 15 files.", call. = FALSE)
     n <- 15
   }
-  # Windows: C:\Users\201_User\AppData\Local\RStudio-Desktop\monitored\lists\file_mru
-  # Windows: HOMEPATH -> \Users\201_User
-  .wakatimerEnv$df.files <- paste0(Sys.getenv("HOME"),
-         "/.rstudio-desktop/monitored/lists/file_mru") %>%
+  .wakatimerEnv$df.files <-
+    ifelse(
+      .Platform$OS.type == "windows",
+      paste0(
+        Sys.getenv("HOMEPATH"),
+        "\\AppData\\Local\\RStudio-Desktop\\monitored\\lists\\file_mru"
+      ),
+      paste0(
+        Sys.getenv("HOME"),
+        "/.rstudio-desktop/monitored/lists/file_mru"
+      )
+    ) %>%
     readLines() %>%
     .[1:n] %>%
     file.info(., extra_cols = FALSE) %>%
