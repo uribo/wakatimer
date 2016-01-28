@@ -81,7 +81,8 @@ wt_sync_session <- function() {
     rlist::list.load()
 
   if (is.list(json.sync) & length(json.sync) >= 1)
-    for (i in 1:length(json.sync)) {
+  if (is.list(json.sync) & length(json.sync) >= 1) {
+    pforeach::npforeach(i = 1:length(json.sync))({
       httr::POST(
         "https://api.wakatime.com/",
         path = "api/v1/heartbeats",
@@ -110,5 +111,5 @@ wt_sync_session <- function() {
         body = json.sync[[i]],
         encode = "json"
       )
-    }
+    })
 }
