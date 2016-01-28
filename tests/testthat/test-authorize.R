@@ -1,6 +1,10 @@
 context("Authorize to WakaTime")
 key <- Sys.getenv("WAKATIME_KEY")
 
+test_that("internet_connection", {
+  testthat::expect_true(RCurl::url.exists("https://wakatime.com/api"))
+})
+
 # resource, key, param
 test_that("api-endpoint-durations", {
   resource <- "durations"
