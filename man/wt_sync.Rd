@@ -2,11 +2,11 @@
 % Please edit documentation in R/wt_sync.R
 \name{wt_sync}
 \alias{wt_sync}
-\title{Sync file modify data as heartbeat}
+\title{Sync file modify data to local database}
 \usage{
 wt_sync()
 }
 \description{
-Sync file modify data as heartbeat
+Sync file modify data to local database
 }
 
