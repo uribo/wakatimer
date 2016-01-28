@@ -1,10 +1,56 @@
 # UTILITIES
+# - msg_ver()
 # - recent_files()
 # - check_file_active()
 # - get_rproj_name()
 # - get_hbranch_name()
 # - file_info()
 # - record_files()
+
+#' Platform versioning
+#' @name msg_ver
+msg_ver <- function() {
+  message(paste0(
+    "The wakatimer begin to record your code as heartbeats!\n ",
+    if (.Platform$OS.type == "unix") {
+      paste0(
+        remoji::emoji("computer"),
+        utils::sessionInfo()$R.version$language,
+        " (",
+        utils::sessionInfo()$R.version$major,
+        ".",
+        utils::sessionInfo()$R.version$minor,
+        ") ",
+        ifelse(
+          .Platform$GUI == "RStudio",
+          paste0(
+            remoji::emoji("large_blue_circle"),
+            devtools::session_info()$platform$ui,
+            " "
+          ),
+          " "
+        ),
+        remoji::emoji("package"),
+        "wakatimer (",
+        utils::packageVersion("wakatimer"),
+        ")"
+      )
+    } else {
+      paste0(
+        utils::sessionInfo()$R.version$language,
+        " (",
+        utils::sessionInfo()$R.version$major,
+        ".",
+        utils::sessionInfo()$R.version$minor,
+        ") ",
+        devtools::session_info()$platform$ui,
+        "wakatimer (",
+        utils::packageVersion("wakatimer"),
+        ")"
+      )
+    }
+  ))
+}
 
 #' Get recently opened file name
 #' @param n integer. retern file numbers. default is 15 .(max)
