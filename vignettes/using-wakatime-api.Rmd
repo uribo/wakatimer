@@ -1,0 +1,124 @@
+---
+title: "Using WakaTime API"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(wakatimer)
+key <- Sys.getenv("WAKATIME_KEY")
+```
+
+## Resource Endpoints
+
+[WakaTime API](https://wakatime.com/developers/) provide these API endpoints.
+
+1. Durations
+2. Heartbeats
+3. Leaders
+4. Stats
+5. Summaries
+6. Users
+7. User Agents
+
+## Duration
+
+Parameters
+
+* date... MM/DD/YYYY
+
+```{r}
+resource <- "durations"
+param <- list(date = format(Sys.Date() - 1, "%m/%d/%Y")) %>%
+  paste(names(.), ., sep = "=")
+
+res <- httr::GET(
+  url = "https://wakatime.com/",
+  path = paste0("api/v1/users/current/",
+  resource,
+  "?api_key=",
+  key,
+  "&",
+  param),
+  encode = "json"
+  ) %>% .$url %>% jsonlite::fromJSON() %>% .$data
+
+res %>% dplyr::select(- c(dependencies, is_debugging)) %>% 
+  dplyr::group_by(project) %>% 
+  dplyr::summarise(cum.duration = sum(duration)) %>% 
+  ggplot(aes(project, cum.duration)) + 
+  geom_bar(stat = "identity")
+```
+
+## Stats
+
+Parameters
+
+- timeout
+- writes_only
+- project
+
+```{r}
+resource <- "stats"
+interval <- c("last_7_days", "last_30_days", "last_6_months", "last_year", "all_time")
+
+req <- httr::GET(
+  url = "https://wakatime.com/",
+  path = paste0(
+    "api/v1/users/current/",
+    resource,
+    "/",
+    interval[1],
+    "?api_key=",
+    key),
+  encode = "json") %>% .$url %>% jsonlite::fromJSON() %>% .$data
+
+req$projects %>% ggplot(aes(name, percent, fill = name)) + 
+  geom_bar(width = 0.9, stat = "identity") + 
+  coord_polar(theta = "y")
+```
+
+## Summaries
+
+Parameters
+
+- start
+- end
+- project
+- branches
+
+```{r}
+resource <- "summaries"
+param <- list(start = format(Sys.Date() - 7, "%m/%d/%Y"), end = format(Sys.Date() - 1, "%m/%d/%Y")) %>% 
+  paste(names(.), ., sep = "=") %>%
+  unlist() %>%
+  paste(collapse = "&")
+```
+
+
+```{r}
+
+param <- list(date = format(Sys.Date() - 1, "%m/%d/%Y")) %>%
+  paste(names(.), ., sep = "=") %>%
+  unlist() %>%
+  paste(collapse = "&")
+
+param <- list(range = "",
+                project = "wakatimer") %>%
+    paste(names(.), ., sep = "=") %>%
+    unlist() %>%
+    paste(collapse = "&")
+
+param <- list(date = format(Sys.Date() -1, "%m/%d/%Y")) %>%
+  paste(names(.), ., sep = "=")
+```
+
+
+

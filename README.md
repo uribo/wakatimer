@@ -42,7 +42,7 @@ Sys.setenv("WAKATIME_ID" = "<application id>")
 Sys.setenv("WAKATIME_SECRET" = "<application secret>")
 ```
 
-I recommend these variables are add to .Rprofile such as below.
+I recommend these variables are add to **.Rprofile** such as below.
 
 ``` r
 # .Rprofile
@@ -57,9 +57,10 @@ Sys.setenv(
 
 ``` r
 q()
+# execute `wt_post()` function in the background
 ```
 
-The **`{wakatimer}`** provide current sessions modificate file information will sent to WakaTime!! Visit <https://wakatime.com> to see your logged time. However, when in such situation out of scope for post to wakatime API 1) Force Quit RStudio 2) Restart R.
+The **`{wakatimer}`** provide current sessions modificate file information will sent to WakaTime!! Visit <https://wakatime.com> to see your logged time. However, when in such situation out of scope for post to wakatime API 1) *Force Quit RStudio* 2) *Restart R*.
 
 Also, you can confirm in RStudio :)
 
@@ -151,17 +152,17 @@ Do not forget loading package.
 
 0.2.0
 
--   \[\] テストファイルの整備
--   \[\] 継続的インテグレーションが実行できるようにする
--   \[\] **`{rstudioaddin}`**との連携
--   \[\] .wakatime.cfg に管理対象外のファイルを追加する関数
--   \[\] 管理対象のファイルはエラー扱いにする
--   \[\] APIを使った可視化
--   \[\] 全APIへの対応
--   \[\] Shiny Widget への対応
--   \[\] vignettes, documentの充実
--   \[\] オフラインでの記録と再接続時の投稿（instフォルダ内へのファイル、データベース保存？）
--   \[\] Mac以外のOSへの対応
+-   \[x\] テストファイルの整備
+-   \[ \] 継続的インテグレーションが実行できるようにする
+-   \[ \] **`{rstudioaddin}`**との連携
+-   \[ \] .wakatime.cfg に管理対象外のファイルを追加する関数
+-   \[ \] 管理対象のファイルはエラー扱いにする
+-   \[ \] APIを使った可視化
+-   \[ \] 全APIへの対応
+-   \[ \] Shiny Widget への対応
+-   \[ \] vignettes, documentの充実
+-   \[x\] オフラインでの記録と再接続時の投稿
+-   \[ \] Mac以外のOSへの対応
 
 🚨 Current Issues
 ----------------
