@@ -136,17 +136,15 @@ wt_sync_session <- function() {
     wt_post(local = TRUE)
     dplyr::db_drop_table(.wakatimerEnv$db_con$con,
                          "tmp")
-  } else {
-    dplyr::copy_to(
-      dest = .wakatimerEnv$db_con,
-      df   = recent_files() %>%
-        dplyr::mutate(is_write = 0),
-      name = ifelse(
-        is.null(get_rproj_name()),
-        "heartbeats_1",
-        get_rproj_name()
-      ),
-      temporary = FALSE
-    )
   }
+
+  dplyr::copy_to(
+    dest = .wakatimerEnv$db_con,
+    df   = recent_files() %>%
+      dplyr::mutate(is_write = 0),
+    name = ifelse(is.null(get_rproj_name()),
+                  "heartbeats_1",
+                  get_rproj_name()),
+    temporary = FALSE
+  )
 }
