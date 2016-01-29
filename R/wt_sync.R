@@ -120,24 +120,3 @@ wt_sync_session <- function() {
     )
   }
 }
-
-#' Sync local database
-#' @import dplyr
-#' @name wt_sync_local
-wt_sync_local <- function() {
-  .wakatimerEnv$db_con <-
-    dplyr::src_sqlite(paste(path.package("wakatimer"), ".wakatime.db", sep = "/"), create = FALSE)
-  if (dplyr::db_has_table(.wakatimerEnv$db_con$con,
-                          ifelse(is.null(get_rproj_name()), "heartbeats_1", get_rproj_name())))
-    dplyr::db_drop_table(.wakatimerEnv$db_con$con,
-                         ifelse(is.null(get_rproj_name()), "heartbeats_1", get_rproj_name()))
-
-  dplyr::copy_to(
-    dest = .wakatimerEnv$db_con,
-    df   = wt_sync(),
-    name = ifelse(is.null(get_rproj_name()),
-                  "heartbeats_1",
-                  get_rproj_name()),
-    temporary = FALSE
-  )
-}
