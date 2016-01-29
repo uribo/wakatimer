@@ -4,7 +4,10 @@
 \alias{wt_sync}
 \title{Sync file modify data to local database}
 \usage{
-wt_sync()
+wt_sync(local = FALSE)
+}
+\arguments{
+\item{local}{logical.}
 }
 \description{
 Sync file modify data to local database

@@ -41,11 +41,14 @@ write_scope <-
 
     .Last <<- function() {
       if (RCurl::url.exists("https://wakatime.com/api")) {
-        wt_post()
+        wt_post(local = FALSE)
       } else {
-        wt_sync_local()
+        wt_sync(local = TRUE)
       }
+      dplyr::db_drop_table(dplyr::src_sqlite(paste(path.package("wakatimer"), ".wakatime.db", sep = "/"), create = FALSE)$con,
+                           ifelse(is.null(get_rproj_name()), "heartbeats_1", get_rproj_name()))
     }
+
     wt_sync_session()
     msg_ver()
   }

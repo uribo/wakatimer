@@ -4,7 +4,10 @@
 \alias{wt_post}
 \title{Sync file modify data as heartbeats}
 \usage{
-wt_post()
+wt_post(local = FALSE)
+}
+\arguments{
+\item{local}{logical.}
 }
 \description{
 Sync file modify data as heartbeats

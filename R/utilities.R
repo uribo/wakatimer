@@ -110,7 +110,10 @@ get_rproj_name <- function() {
 #' @name get_hbranch_name
 #' @export
 get_hbranch_name <- function() {
-  if (file.exists("./.git") == FALSE) {
+  if (is.null(rstudioapi::getActiveProject())) {
+    NULL
+  }
+  if (!file.exists(paste0(getwd(), "/.git"))) {
     NULL
   } else {
     # exist git repository

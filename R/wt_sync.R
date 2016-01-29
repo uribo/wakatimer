@@ -1,7 +1,9 @@
 #' Sync file modify data to local database
+#' @param local logical.
 #' @import dplyr
+#' @importFrom DBI dbWriteTable
 #' @name wt_sync
-wt_sync <- function() {
+wt_sync <- function(local = FALSE) {
   db_con <-
     dplyr::src_sqlite(paste(path.package("wakatimer"), ".wakatime.db", sep = "/"), create = FALSE)
 
@@ -41,20 +43,50 @@ wt_sync <- function() {
         is_debugging = FALSE,
         is_write = ifelse(is.na(is_write), TRUE, FALSE)
       )
+    if (local == TRUE)
+      DBI::dbWriteTable(
+        db_con$con,
+        "tmp",
+        df.sync %>% as.data.frame(),
+        append = TRUE,
+        overwrite = FALSE
+      )
+    return(df.sync)
   }
 }
 
 #' Sync file modify data as heartbeats
+#' @param local logical.
 #' @importFrom jsonlite toJSON
 #' @importFrom rlist list.load
 #' @importFrom httr POST
 #' @importFrom httr add_headers
 #' @importFrom pforeach npforeach
 #' @name wt_post
-wt_post <- function() {
-  json.sync <- wt_sync() %>%
-    jsonlite::toJSON(pretty = FALSE) %>%
-    rlist::list.load()
+wt_post <- function(local = FALSE) {
+  if (local == TRUE) {
+    json.sync <-
+      dplyr::src_sqlite(paste(path.package("wakatimer"), ".wakatime.db", sep = "/"), create = FALSE) %>%
+      dplyr::tbl("tmp") %>%
+      dplyr::collect() %>%
+      dplyr::arrange(time, entity) %>%
+      dplyr::mutate(
+        type = "file",
+        lineno = NULL,
+        cursorpos = NULL,
+        project = ifelse(is.null(get_rproj_name()), "", get_rproj_name()),
+        branch = ifelse(is.null(get_hbranch_name()), "", get_hbranch_name()),
+        language = gsub(".+\\.", "", entity),
+        is_debugging = FALSE,
+        is_write = ifelse(is.na(is_write), TRUE, FALSE)
+      ) %>%
+      jsonlite::toJSON(pretty = FALSE) %>%
+      rlist::list.load()
+  } else if (local == FALSE) {
+    json.sync <- wt_sync(local = FALSE) %>%
+      jsonlite::toJSON(pretty = FALSE) %>%
+      rlist::list.load()
+  }
 
   if (is.list(json.sync) & length(json.sync) >= 1) {
     pforeach::npforeach(i = 1:length(json.sync))({
@@ -87,10 +119,6 @@ wt_post <- function() {
         encode = "json"
       )
     })
-    .wakatimerEnv$db_con <-
-      dplyr::src_sqlite(paste(path.package("wakatimer"), ".wakatime.db", sep = "/"), create = FALSE)
-    dplyr::db_drop_table(.wakatimerEnv$db_con$con,
-                         ifelse(is.null(get_rproj_name()), "heartbeats_1", get_rproj_name()))
   }
 }
 
@@ -103,9 +131,11 @@ wt_sync_session <- function() {
   .wakatimerEnv$db_con <-
     dplyr::src_sqlite(paste(path.package("wakatimer"), ".wakatime.db", sep = "/"), create = FALSE)
 
-  if (dplyr::db_has_table(.wakatimerEnv$db_con$con,
-                          ifelse(is.null(get_rproj_name()), "heartbeats_1", get_rproj_name()))) {
-    wt_post()
+  if (RCurl::url.exists("https://wakatime.com/api") &
+      dplyr::db_has_table(.wakatimerEnv$db_con$con, "tmp")) {
+    wt_post(local = TRUE)
+    dplyr::db_drop_table(.wakatimerEnv$db_con$con,
+                         "tmp")
   } else {
     dplyr::copy_to(
       dest = .wakatimerEnv$db_con,
