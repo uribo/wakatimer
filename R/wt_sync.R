@@ -16,9 +16,9 @@ wt_sync <- function(local = FALSE) {
       path.expand(entity)
     )) %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(time = as.numeric(atime)) %>%
+    dplyr::mutate(time = as.numeric(mtime)) %>%
     dplyr::ungroup() %>%
-    dplyr::select(-size, -atime)
+    dplyr::select(-size, -mtime)
 
   df.files.quit <-
     recent_files() %>% record_files() %>%

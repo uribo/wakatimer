@@ -80,7 +80,7 @@ recent_files <- function(n = 15) {
     .[1:n] %>%
     file.info(., extra_cols = FALSE) %>%
     dplyr::add_rownames("file") %>%
-    dplyr::select(file, size, atime) %>%
+    dplyr::select(file, size, mtime) %>%
     dplyr::filter(!is.na(size)) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(lines = length(readLines(file))) %>%
@@ -144,8 +144,8 @@ record_files <- function(df = NULL) {
       path.expand(entity)
     )) %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(time = as.numeric(atime)) %>%
+    dplyr::mutate(time = as.numeric(mtime)) %>%
     dplyr::ungroup() %>%
-    dplyr::select(-size, -atime) %>%
+    dplyr::select(-size, -mtime) %>%
     return(.)
 }
