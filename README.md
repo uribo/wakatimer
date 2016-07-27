@@ -11,9 +11,9 @@ Currently, test cheking **Mac OS X only**. Please report other plaform result an
 💻 Requirement and Setup
 -----------------------
 
-1.  [Create WakaTime accont](https://wakatime.com/signup).
+1.  [Create a WakaTime accont](https://wakatime.com/signup).
 2.  Configure your own [API key](https://wakatime.com/settings).
-3.  [Registry application](https://wakatime.com/apps) and to get an OAuth 2.0 client token to use wakatimer.
+3.  [Create a new app](thttps://wakatime.com/apps) and get an OAuth 2.0 client token to use wakatimer. Add `http://localhost:1410/` as an Authorized Redirect URI.
 
 Then, Install package from GitHub repository.
 
