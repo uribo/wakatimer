@@ -79,7 +79,6 @@ recent_files <- function(n = 15) {
     readLines() %>%
     .[1:n] %>%
     file.info(., extra_cols = FALSE) %>%
-    # dplyr::add_rownames("file") %>%
     tibble::rownames_to_column("file") %>%
     dplyr::select(file, size, mtime) %>%
     dplyr::filter(!is.na(size)) %>%
