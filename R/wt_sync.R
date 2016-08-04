@@ -13,8 +13,7 @@ wt_sync <- function(local = FALSE) {
     dplyr::rename(entity = file) %>%
     dplyr::filter(grepl(
       paste0(rstudioapi::getActiveProject(), "/.+"),
-      path.expand(entity)
-    )) %>%
+      path.expand(entity))) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(time = as.numeric(mtime)) %>%
     dplyr::ungroup() %>%
@@ -23,7 +22,7 @@ wt_sync <- function(local = FALSE) {
   df.files.quit <-
     recent_files() %>% record_files() %>%
     dplyr::bind_rows(df.files.load) %>%
-    dplyr::distinct(time)
+    dplyr::distinct()
 
   exist.files <-
     df.files.quit %>% dplyr::filter(is_write == 0) %>% .$entity
