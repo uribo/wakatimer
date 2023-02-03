@@ -24,17 +24,7 @@ devtools::install_github("uribo/wakatimer")
 🔰 How to Use
 ------------
 
-Loading package and run `write_scope()` function to authorize.
-
-``` r
-library(wakatimer)
-write_scope()
-# Waiting for authentication in browser...
-# Press Esc/Ctrl + C to abort
-# Authentication complete.
-```
-
-Next, wakatime api key and app id set to R global environment.
+First, set wakatime api key and app id to R global environment.
 
 ``` r
 Sys.setenv("WAKATIME_KEY" = "<your api key>")
@@ -51,6 +41,16 @@ Sys.setenv(
   WAKATIME_ID      = "<application id>",
   WAKATIME_SECRET  = "<application secret>"
 )
+```
+
+Then, load the package and run `write_scope()` function to authorize.
+
+``` r
+library(wakatimer)
+write_scope()
+# Waiting for authentication in browser...
+# Press Esc/Ctrl + C to abort
+# Authentication complete.
 ```
 
 **Use like you normally do and your time will record by log.**
