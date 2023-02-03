@@ -59,7 +59,7 @@ msg_ver <- function() {
 #' @export
 recent_files <- function(n = 15) {
   if (is.null(.wakatimerEnv$df.files))
-    .wakatimerEnv$df.files <- dplyr::data_frame()
+    .wakatimerEnv$df.files <- dplyr::tibble()
   if (n > 15) {
     warning("over request. display only 15 files.", call. = FALSE)
     n <- 15
